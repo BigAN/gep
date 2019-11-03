@@ -31,6 +31,9 @@ with ut.tick_tock("lgbm"):
 
     before_len = len(train)
     train, test, predictors, cat = add_feature(args, train, test)
+    train = ut.reduce_mem_usage(train)
+    test =ut.reduce_mem_usage(test)
+
     train['group'] = train['date_month']
     train['group'].replace((1, 2, 3, 4, 5, 6), 1, inplace=True)
     train['group'].replace((7, 8, 9, 10, 11, 12), 2, inplace=True)
@@ -44,6 +47,11 @@ with ut.tick_tock("lgbm"):
     # train[label] = train[label].apply(lambda x: tran_to_train(x))
 
     print "len(predictors),len(cat)", len(predictors), len(cat)
+    print "predictors,",predictors
+    print "cat,", cat
+
+    predictors = list(set(predictors) - set(['date_year,date_month,date_day']))
+    print " after tran , predictors,", predictors
 
     X = train[predictors + cat]
     X_test = test[predictors + cat]
@@ -122,16 +130,16 @@ with ut.tick_tock("lgbm"):
         'boost': 'gbdt',
         'feature_fraction': paras.pop("feature_fraction", 0.7),
         'learning_rate': paras.pop("learning_rate", 0.01),
-        'max_depth': paras.pop("max_depth", -1),
+        'max_depth': paras.pop("max_depth", 8),
         'metric': 'rmse',
         'subsample_freq': paras.pop("subsample_freq", 1),
         'subsample': paras.pop("subsample", 0.7),
         'min_data_in_leaf': paras.pop("min_data_in_leaf", 20),
-        'min_sum_hessian_in_leaf': paras.pop("min_sum_hessian_in_leaf", 0.001),
+        'min_sum_hessian_in_leaf': paras.pop("min_sum_hessian_in_leaf", 1),
         'num_leaves': paras.pop("num_leaves", 2 ** 8),
         'tree_learner': 'serial',
         'objective': 'regression',
-        'max_bin': 255,
+        # 'max_bin': 255,
         'verbosity': 1}
 
     params.update(paras)
@@ -369,7 +377,7 @@ with ut.tick_tock("lgbm"):
     # test[['deal_poi', 'sales']].to_csv('../out/lgbm_out_CV5_{}_{}_{}_{}.csv.gz'.format(args.intro, np.mean(fold_scores),test.sales.mean(),args.valid),
     #                                    index=False, float_format='%.4f', compression='gzip')
 
-    test[label] = np.clip(test[label], -100, 100)
+    test[label] = np.clip(test[label], 0, None)
     print "test describe "
     print test[label].describe()
     sign = "{}_{}_{}_{}_{}".format(args.intro, md5,
@@ -379,12 +387,12 @@ with ut.tick_tock("lgbm"):
 
     test[cst.key + [label]].to_csv(
         '../out/lgbm_{}_base_out_{}.csv.gz'.format(cst.code_name, sign),
-        index=False, float_format='%.8f', compression='gzip')
+        index=False, float_format='%.4f', compression='gzip')
 
     test['row_id'] = test.index
     test[['row_id', label]].to_csv(
         '../out/real_lgbm_{}_base_out_{}.csv.gz'.format(cst.code_name, sign),
-        index=False, float_format='%.8f', compression='gzip')
+        index=False, float_format='%.4f', compression='gzip')
 
     print "len(train.deal_poi),len(bag_cv_train)", len(train[cst.key]), len(bag_cv_train)
     print "len(test.deal_poi),len(bag_cv_pred)", len(test[cst.key]), len(bag_cv_pred)
