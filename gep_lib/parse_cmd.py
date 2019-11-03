@@ -125,7 +125,7 @@ def find_file(paths,tgt):
 
     frs = None
     for i in rs:
-        if "zip" in i:
+        if "gz" in i:
             frs = i
             break
     else:
