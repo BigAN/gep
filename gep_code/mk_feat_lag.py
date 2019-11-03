@@ -75,7 +75,7 @@ with ut.tick_tock('cal fea'):
 
 with ut.tick_tock("write data"):
     feat_key = key
-    feature[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv', index=False,
+    out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv', index=False,
                                            header=ut.deco_outcols(feat_key, out_cols))
-    feature[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv', index=False,
+    out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv', index=False,
                                            header=ut.deco_outcols(feat_key, out_cols))
