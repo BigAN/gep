@@ -31,7 +31,9 @@ with ut.tick_tock("lgbm"):
 
     before_len = len(train)
     train, test, predictors, cat = add_feature(args, train, test)
-
+    train['group'] = train['date_month']
+    train['group'].replace((1, 2, 3, 4, 5, 6), 1, inplace=True)
+    train['group'].replace((7, 8, 9, 10, 11, 12), 2, inplace=True)
     # cst.code_name = 'outlier'
     # train = train.sample(frac=0.2)
     # # with ut.tick_tock("filter "):

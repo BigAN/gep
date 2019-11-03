@@ -891,6 +891,9 @@ def get_key(inp):
     la = inp.split("_")[-1].split(".")[0]
     return la
 
+def check(a,b):
+    assert len(a) == len(b)
+
 if __name__ == "__main__":
     # filename = sys.argv[1]
     # data = pd.read_csv(filename, header=None)
