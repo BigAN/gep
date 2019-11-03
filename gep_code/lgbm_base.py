@@ -201,7 +201,7 @@ with ut.tick_tock("lgbm"):
     top100_list_bag = []
     # permutation_dict = Counter()
     for s in xrange(BAG_NUM):
-        fold_rs = folds.flit(train, train[cst.label],groups=train['group'])
+        fold_rs = folds.split(train, train[cst.label],groups=train['group'])
 
         params['seed'] = int(s) + 2018
         with ut.tick_tock("bag round {}".format(s)):
