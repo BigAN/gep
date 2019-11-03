@@ -31,8 +31,10 @@ with ut.tick_tock("lgbm"):
 
     before_len = len(train)
     train, test, predictors, cat = add_feature(args, train, test)
-    train = ut.reduce_mem_usage(train)
-    test =ut.reduce_mem_usage(test)
+    with ut.tick_tock("reduce memory"):
+
+        train = ut.reduce_mem_usage(train)
+        test =ut.reduce_mem_usage(test)
 
     train['group'] = train['date_month']
     train['group'].replace((1, 2, 3, 4, 5, 6), 1, inplace=True)
@@ -50,7 +52,7 @@ with ut.tick_tock("lgbm"):
     print "predictors,",predictors
     print "cat,", cat
 
-    predictors = list(set(predictors) - set(['date_year,date_month,date_day']))
+    predictors = list(set(predictors) - set(['date_year','date_month','date_day']))
     print " after tran , predictors,", predictors
 
     X = train[predictors + cat]
