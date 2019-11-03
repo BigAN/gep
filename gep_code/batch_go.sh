@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+sh go_nonohup.sh -m lgbm -k base  -p num_boost_round,10000==nthread,12==valid_flag,valid==sample,1.0==lambda_l2,0.8==learning_rate,0.01==min_data_in_leaf,1 -f base_rm1,k2_1,uid_stat2,cate_stat  -i best_try
+sh go_nonohup.sh -m lgbm -k base  -p num_boost_round,10000==nthread,12==valid_flag,valid==sample,1.0==lambda_l2,0.8==learning_rate,0.01==min_data_in_leaf,1 -f base_rm1,k2_1,uid_stat2,cate_stat,cross_test  -i best_try
