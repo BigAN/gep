@@ -25,8 +25,8 @@ def feature_func(inp):
     #
     # inp['uid3'] = inp['uid2'].astype(str) + '_' + inp['addr1'].astype(str) + '_' + inp[
     #     'addr2'].astype(str)
-    with ut.tick_tock("1"):
-        inp=inp.fillna(inp.mean())
+    # with ut.tick_tock("1"):
+    #     inp=inp.fillna(-999)
     with ut.tick_tock("1"):
         inp["timestamp"] = pd.to_datetime(inp["timestamp"])
         inp['hour'] = np.uint8(inp['timestamp'].dt.hour)
