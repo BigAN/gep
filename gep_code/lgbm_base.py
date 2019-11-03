@@ -123,132 +123,18 @@ with ut.tick_tock("lgbm"):
         'feature_fraction': paras.pop("feature_fraction", 0.7),
         'learning_rate': paras.pop("learning_rate", 0.01),
         'max_depth': paras.pop("max_depth", -1),
-        'metric': 'auc',
+        'metric': 'rmse',
         'subsample_freq': paras.pop("subsample_freq", 1),
         'subsample': paras.pop("subsample", 0.7),
         'min_data_in_leaf': paras.pop("min_data_in_leaf", 20),
         'min_sum_hessian_in_leaf': paras.pop("min_sum_hessian_in_leaf", 0.001),
         'num_leaves': paras.pop("num_leaves", 2 ** 8),
         'tree_learner': 'serial',
-        'objective': 'binary',
+        'objective': 'regression',
         'max_bin': 255,
         'verbosity': 1}
 
-    # params = {'num_leaves': 491,
-    #           'min_child_weight': 0.03454472573214212,
-    #           'feature_fraction': 0.3797454081646243,
-    #           'bagging_fraction': 0.4181193142567742,
-    #           'min_data_in_leaf': 106,
-    #           'objective': 'binary',
-    #           'max_depth': -1,
-    #           'learning_rate': 0.006883242363721497,
-    #           "boosting_type": "gbdt",
-    #           "bagging_seed": 11,
-    #           "metric": 'auc',
-    #           "verbosity": -1,
-    #           'reg_alpha': 0.3899927210061127,
-    #           'reg_lambda': 0.6485237330340494,
-    #           'random_state': 47,
-    #           }
-
-    # params = {
-    #     'objective': 'binary',
-    #     'boosting_type': 'gbdt',
-    #     'metric': 'auc',
-    #     'n_jobs': 8,
-    #     'learning_rate': 0.01,
-    #     'num_leaves': 2 ** 8,
-    #     'max_depth': -1,
-    #     'tree_learner': 'serial',
-    #     'colsample_bytree': 0.7,
-    #     'subsample_freq': 1,
-    #     'subsample': 0.7,
-    #     'n_estimators': 1800,
-    #     'max_bin': 255,
-    #     'verbose': -1,
-    #     'seed': 1111,
-    #     'early_stopping_rounds': 100,
-    # }
-
-    # params = {
-    #     'task': 'train',
-    #     'boosting': 'gbdt',
-    #     'objective': 'binary',
-    #     'metric': ['binary_logloss'],
-    #     # 'metric': 'rmse',
-    #     'learning_rate': 0.01,
-    #     'subsample': 0.9855232997390695,
-    #     'max_depth': 7,
-    #     'top_rate': 0.9064148448434349,
-    #     'num_leaves': 63,
-    #     'min_child_weight': 41.9612869171337,
-    #     'other_rate': 0.0721768246018207,
-    #     'reg_alpha': 9.677537745007898,
-    #     'colsample_bytree': 0.5665320670155495,
-    #     'min_split_gain': 9.820197773625843,
-    #     'reg_lambda': 8.2532317400459,
-    #     'min_data_in_leaf': 21,
-    #     'verbose': -1,
-    #     # 'seed': int(2 ** n_fold),
-    #     # 'bagging_seed': int(2 ** n_fold),
-    #     # 'drop_seed': int(2 ** n_fold)
-    # }
-    # params = {
-    #     'num_leaves': 30,
-    #     'min_data_in_leaf': 20,
-    #     'objective': 'binary',
-    #     'max_depth': 7,
-    #     'learning_rate': 0.01,
-    #     # "min_child_samples": 5,
-    #     # "is_unbalance": True,
-    #     "boosting": "gbdt",
-    #     "feature_fraction": 0.9,
-    #     # "bagging_freq": 3,
-    #     # "bagging_fraction": 0.85,
-    #     # "bagging_seed": 11,
-    #     "metric": ['auc', 'binary_logloss'],
-    #     # "lambda_l1": 0.1,
-    #     "verbosity": -1,
-    #     "nthread": 12,
-    #     "random_state": 4590}
-    # params = {}  # no para work
     params.update(paras)
-    # print "final param {} ".format(params)
-    # params = {
-    #     # "objective": "fair",
-    #     # "fair_c":0.7,
-    #     "objective": "regression_l2",
-    #     # "objective": "poisson",
-    #
-    #     # "objective": "huber",
-    #
-    #     "metric": "None",
-    #     "boosting_type": "gbdt",
-    #     "learning_rate": 0.15,
-    #     "num_leaves": 100,
-    #     "max_depth": 15,  # 2**7=128
-    #     # "bagging_freq":10,
-    #     # "max_bin": 127,
-    #     # "min_data_in_bin":5,
-    #     'feature_fraction': 0.7,
-    #     # 'max_bin': 511,
-    #     # 'lambda_l1':10,
-    #     # 'bagging_fraction': 0.9,
-    #     # "bagging_freq": 5,
-    #     # "drop_rate": 0.1,
-    #     # "is_unbalance": False,
-    #     # "max_drop": 50,
-    #     "min_child_samples": 100,
-    #     # "min_gain_to_split": 10,
-    #     # "lambda_l2": 1,
-    #     # "drop_rate": 0.1,
-    #     # "max_drop": 50,
-    #     # "min_child_weight": 10,
-    #     # "min_split_gain": 0,
-    #     # "subsample": 0.9,
-    #     # "device_type":"gpu",
-    #     'nthread': 12,
-    # }
     print "final params"
 
     print params
@@ -259,8 +145,8 @@ with ut.tick_tock("lgbm"):
     final_cv_pred = np.zeros(len(X_test))
 
     cv_only = True
-    folds = StratifiedKFold(n_splits=NFOLDS, shuffle=True, random_state=4590)
-    # folds = GroupKFold(n_splits=NFOLDS)
+    # folds = StratifiedKFold(n_splits=NFOLDS, shuffle=True, random_state=4590)
+    folds = GroupKFold(n_splits=NFOLDS)
     # print "GroupKFold","??????????"
     # folds = KFold(n_splits=NFOLDS, shuffle=True, random_state=4590)
 
@@ -315,7 +201,7 @@ with ut.tick_tock("lgbm"):
     top100_list_bag = []
     # permutation_dict = Counter()
     for s in xrange(BAG_NUM):
-        fold_rs = folds.split(train, train[cst.label])
+        fold_rs = folds.flit(train, train[cst.label],groups=train['group'])
 
         params['seed'] = int(s) + 2018
         with ut.tick_tock("bag round {}".format(s)):

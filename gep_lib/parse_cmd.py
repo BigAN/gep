@@ -155,8 +155,8 @@ def add_feature(args, train_df, test_df, nrows=None):
                     # test_file = os.path.join( cst.test_prefix + af + ".csv")
                     train_file = find_file(all_files,cst.train_prefix + af)
                     test_file = find_file(all_files,cst.test_prefix + af)
-                    print "train_file ",train_file
-                    print "all_files",all_files
+                    # print "train_file ",train_file
+                    # print "all_files",all_files
                     for_cols = pd.read_csv(train_file, nrows=5)
                     to_add_cols = list(for_cols.columns)
                     print("detail_feas_list",detail_feas_list)
