@@ -115,15 +115,23 @@ def parse_label_tran_cmd(args):
     return p_dict
 
 def find_file(paths,tgt):
-    rs = None
+    rs = []
     for i in paths:
         if tgt in i:
-            rs = i
+            rs.append(i)
 
-    if rs == None:
+    if len(rs)==0:
         raise Exception("no match name")
 
-    return rs
+    frs = None
+    for i in rs:
+        if "zip" in i:
+            frs = i
+            break
+    else:
+        frs = i
+
+    return frs
 
 def add_feature(args, train_df, test_df, nrows=None):
     rm_feas = args.rm_feas.split(",") if len(args.rm_feas) > 1 else []
@@ -187,7 +195,7 @@ def add_feature(args, train_df, test_df, nrows=None):
                     print(len(train_df), len(train_to_append))
                     print(len(test_df), len(test_to_append))
 
-                    assert len(train_df) == len(train_to_append)
+                    assert len(train_df) == len(train_to_append),"af {} , train_df {} , train_to_append {}".format(af,len(train_df),len(train_to_append))
                     assert len(test_df) == len(test_to_append)
 
                     train_df = train_df.join(train_to_append[be_added])
