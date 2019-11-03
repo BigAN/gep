@@ -27,9 +27,12 @@ def feature_func(inp):
     #     'addr2'].astype(str)
     with ut.tick_tock("1"):
         inp=inp.fillna(inp.mean())
+    with ut.tick_tock("1"):
         inp["timestamp"] = pd.to_datetime(inp["timestamp"])
         inp['hour'] = np.uint8(inp['timestamp'].dt.hour)
         inp['day'] = np.uint8(inp['timestamp'].dt.day)
+    with ut.tick_tock("1"):
+
         inp['weekday'] = np.uint8(inp['timestamp'].dt.weekday)
         inp['month'] = np.uint8(inp['timestamp'].dt.month)
         inp['year'] = np.uint8(inp['timestamp'].dt.year - 1900)
