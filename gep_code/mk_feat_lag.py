@@ -70,7 +70,7 @@ with ut.tick_tock('cal fea'):
     out = feature_func(feature, weather_df)
     # no_cols = "V194,V173,V216,V213,V134,V125,V175,V40,V123,V253,V161,V181,V63,V84,V286,V197,V200,V16,V72,V304,id_34,V250,V243,V57,V336,V306,V22,V242,V179,V158,V255,V331,V154,V46,V47,V178,V202,V211,V32,V60,V183,V320,V177,id_04,V248,V59,V283,V227,V259,id_03,V245,id_15,V222,V18,V192,V214,V234,V229,V239,V333,V190,V204,V294,V2,V3,id_11,V318,V71,D7"
     # no_cols = no_cols.split(",")
-    out_cols = list(set(feature) - set(ori_cols))
+    out_cols = list(set(out) - set(ori_cols))
     print out_cols
 
 with ut.tick_tock("write data"):
