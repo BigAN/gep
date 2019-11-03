@@ -76,7 +76,13 @@ with ut.tick_tock('cal fea'):
     ut.check(feature,out)
 with ut.tick_tock("write data"):
     feat_key = key
-    out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv.gz', index=False,
-                                           header=ut.deco_outcols(feat_key, out_cols),compression='gzip', chunksize=100000)
-    out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv.gz', index=False,
-                                           header=ut.deco_outcols(feat_key, out_cols),compression='gzip', chunksize=100000)
+    # out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv.gz', index=False,
+    #                                        header=ut.deco_outcols(feat_key, out_cols),compression='gzip', chunksize=100000)
+    # out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv.gz', index=False,
+    #                                        header=ut.deco_outcols(feat_key, out_cols),compression='gzip', chunksize=100000)
+
+    out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv', index=False,
+                                       header=ut.deco_outcols(feat_key, out_cols))
+    out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv', index=False,
+                                       header=ut.deco_outcols(feat_key, out_cols))
+
