@@ -893,6 +893,7 @@ def get_key(inp):
 
 def check(a,b):
     assert len(a) == len(b)
+    print "check complete"
 
 if __name__ == "__main__":
     # filename = sys.argv[1]
