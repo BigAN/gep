@@ -298,7 +298,7 @@ with ut.tick_tock("lgbm"):
 
                         cv_pred += pred
                         # mae = evals_results['valid']["auc"][bst.best_iteration - 1]
-                        binary_logloss = evals_results['valid']["auc"][bst.best_iteration - 1]
+                        binary_logloss = evals_results['valid']["rmse"][bst.best_iteration - 1]
                         mae = binary_logloss
                         fold_logloss.append(binary_logloss)
                         val_mae = mae
