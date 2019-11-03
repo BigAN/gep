@@ -887,6 +887,9 @@ def din_fcn_shine(query, facts, attention_size, mask, stag='null', mode='SUM', s
     output = d_layer_2_all
     return output
 
+def get_key(inp):
+    la = inp.split("_")[-1].split(".")[0]
+    return la
 
 if __name__ == "__main__":
     # filename = sys.argv[1]

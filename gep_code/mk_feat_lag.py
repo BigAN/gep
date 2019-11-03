@@ -5,17 +5,17 @@ import gep_lib.feature_lib as flb
 import gep_lib.const as cst
 import gep_lib.parse_cmd as pcmd
 from sklearn import preprocessing
+import os
+import gep_lib.utils as ut
 
 args = pcmd.init_arguments_feature()
 
 nrows = args.nrows
 test_nrows = nrows
 
-key = 'base'
+key = ut.get_key(os.path.basename(__file__))
 
-import gep_lib.utils as ut
-
-
+print key
 def add_lag_feature(weather_df, window=3):
     group_df = weather_df.groupby('site_id')
     cols = ['air_temperature', 'cloud_coverage', 'dew_temperature', 'precip_depth_1_hr', 'sea_level_pressure',
