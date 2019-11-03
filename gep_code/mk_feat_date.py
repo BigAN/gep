@@ -25,8 +25,8 @@ def feature_func(inp):
     #
     # inp['uid3'] = inp['uid2'].astype(str) + '_' + inp['addr1'].astype(str) + '_' + inp[
     #     'addr2'].astype(str)
-    # with ut.tick_tock("1"):
-    #     inp=inp.fillna(-999)
+    with ut.tick_tock("1"):
+        inp['wind_direction']=inp.fillna(inp.wind_direction.median())
     with ut.tick_tock("1"):
         inp["timestamp"] = pd.to_datetime(inp["timestamp"])
         inp['hour'] = np.uint8(inp['timestamp'].dt.hour)
@@ -45,6 +45,7 @@ def feature_func(inp):
             np.int8)
 
         inp.loc[(inp['weekday'] == 5) | (inp['weekday'] == 6), 'is_holiday'] = 1
+
     with ut.tick_tock("3"):
 
         def degToCompass(num):
