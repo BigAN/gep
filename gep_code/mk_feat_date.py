@@ -25,33 +25,38 @@ def feature_func(inp):
     #
     # inp['uid3'] = inp['uid2'].astype(str) + '_' + inp['addr1'].astype(str) + '_' + inp[
     #     'addr2'].astype(str)
-    inp=inp.fillna(inp.mean())
-    inp["timestamp"] = pd.to_datetime(inp["timestamp"])
-    inp['hour'] = np.uint8(inp['timestamp'].dt.hour)
-    inp['day'] = np.uint8(inp['timestamp'].dt.day)
-    inp['weekday'] = np.uint8(inp['timestamp'].dt.weekday)
-    inp['month'] = np.uint8(inp['timestamp'].dt.month)
-    inp['year'] = np.uint8(inp['timestamp'].dt.year - 1900)
+    with ut.tick_tock("1"):
+        inp=inp.fillna(inp.mean())
+        inp["timestamp"] = pd.to_datetime(inp["timestamp"])
+        inp['hour'] = np.uint8(inp['timestamp'].dt.hour)
+        inp['day'] = np.uint8(inp['timestamp'].dt.day)
+        inp['weekday'] = np.uint8(inp['timestamp'].dt.weekday)
+        inp['month'] = np.uint8(inp['timestamp'].dt.month)
+        inp['year'] = np.uint8(inp['timestamp'].dt.year - 1900)
+    with ut.tick_tock("2"):
 
-    inp['square_feet_log'] = np.log(inp['square_feet'])
-    dates_range = pd.date_range(start='2015-12-31', end='2019-01-01')
-    us_holidays = calendar().holidays(start=dates_range.min(), end=dates_range.max())
-    inp['is_holiday'] = (inp['timestamp'].dt.date.astype('datetime64').isin(us_holidays)).astype(
-        np.int8)
+        inp['square_feet_log'] = np.log(inp['square_feet'])
+        dates_range = pd.date_range(start='2015-12-31', end='2019-01-01')
+        us_holidays = calendar().holidays(start=dates_range.min(), end=dates_range.max())
+        inp['is_holiday'] = (inp['timestamp'].dt.date.astype('datetime64').isin(us_holidays)).astype(
+            np.int8)
 
-    inp.loc[(inp['weekday'] == 5) | (inp['weekday'] == 6), 'is_holiday'] = 1
+        inp.loc[(inp['weekday'] == 5) | (inp['weekday'] == 6), 'is_holiday'] = 1
+    with ut.tick_tock("3"):
 
-    def degToCompass(num):
-        val = int((num / 22.5) + .5)
-        arr = [i for i in range(0, 16)]
-        return arr[(val % 16)]
+        def degToCompass(num):
+            val = int((num / 22.5) + .5)
+            arr = [i for i in range(0, 16)]
+            return arr[(val % 16)]
 
-    inp['wind_direction_deg'] = inp['wind_direction'].apply(degToCompass)
-    for f in inp.columns:
-        if inp[f].dtype == 'object' or inp[f].dtype == 'object':
-            lbl = preprocessing.LabelEncoder()
-            lbl.fit(list(inp[f].values))
-            inp[f] = lbl.transform(list(inp[f].values))
+        inp['wind_direction_deg'] = inp['wind_direction'].apply(degToCompass)
+    with ut.tick_tock("4"):
+
+        for f in inp.columns:
+            if inp[f].dtype == 'object' or inp[f].dtype == 'object':
+                lbl = preprocessing.LabelEncoder()
+                lbl.fit(list(inp[f].values))
+                inp[f] = lbl.transform(list(inp[f].values))
             # inp[f] = lbl.transform(list(inp[f].values))
 
     return inp
