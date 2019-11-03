@@ -76,14 +76,14 @@ with ut.tick_tock('cal fea'):
     ut.check(feature,out)
 with ut.tick_tock("write data"):
     feat_key = key
-    # if nrows==None:
-    out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv.gz', index=False,
+    if nrows==None:
+        out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv.gz', index=False,
                                                header=ut.deco_outcols(feat_key, out_cols),compression='gzip')
-    out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv.gz', index=False,
+        out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv.gz', index=False,
                                                header=ut.deco_outcols(feat_key, out_cols),compression='gzip')
-    # else:
-    # out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv', index=False,
-    #                                        header=ut.deco_outcols(feat_key, out_cols))
-    # out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv', index=False,
-    #                                        header=ut.deco_outcols(feat_key, out_cols))
+    else:
+        out[:train_index][out_cols].to_csv(cst.train_prefix + key + '.csv', index=False,
+                                           header=ut.deco_outcols(feat_key, out_cols))
+        out[train_index:][out_cols].to_csv(cst.test_prefix + key + '.csv', index=False,
+                                           header=ut.deco_outcols(feat_key, out_cols))
 

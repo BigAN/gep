@@ -114,6 +114,16 @@ def parse_label_tran_cmd(args):
     # print("label tran,", p_dict)
     return p_dict
 
+def find_file(paths,tgt):
+    rs = None
+    for i in paths:
+        if tgt in i:
+            rs = i
+
+    if rs == None:
+        raise Exception("no match name")
+
+    return rs
 
 def add_feature(args, train_df, test_df, nrows=None):
     rm_feas = args.rm_feas.split(",") if len(args.rm_feas) > 1 else []
@@ -121,6 +131,7 @@ def add_feature(args, train_df, test_df, nrows=None):
     cat = args.cat.split(",") if len(args.cat) > 1 else []
     add_feas_files = args.add_feas.split(",") if len(args.add_feas) > 1 else None
     detail_feas_list = args.detail_feas.split("=====") if len(args.detail_feas) > 1 else None
+    all_files = glob.glob("../data/*")
 
     # print("predictors : ", predictors, len(predictors))
     # predictors = list(set(args.feas.split(",")) - set(rm_feas))
@@ -131,8 +142,12 @@ def add_feature(args, train_df, test_df, nrows=None):
                 if len(af) > 1:
                     print("add feature group", af)
                     # if len(af) > 3:
-                    train_file = os.path.join(cst.train_prefix + af + ".csv")
-                    test_file = os.path.join( cst.test_prefix + af + ".csv")
+                    # train_name = [x for if cst.train_prefix + af in x ]
+                    # train_file = os.path.join(cst.train_prefix + af + ".csv")
+                    # test_file = os.path.join( cst.test_prefix + af + ".csv")
+                    train_file = find_file(all_files,cst.train_prefix + af)
+                    test_file = find_file(all_files,cst.test_prefix + af)
+
                     for_cols = pd.read_csv(train_file, nrows=5)
                     to_add_cols = list(for_cols.columns)
                     print("detail_feas_list",detail_feas_list)
