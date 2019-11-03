@@ -61,7 +61,7 @@ with ut.tick_tock('read_data'):
     weather_train_df = pd.read_csv(cst.data_root + "weather_train.csv", ',', nrows=nrows)
     weather_test_df = pd.read_csv(cst.data_root + "weather_test.csv", ',', nrows=test_nrows)
 
-    ori_cols = train_key.columns.tolist()  # others use base
+    ori_cols = train_base.columns.tolist()  # others use base
     train_index = len(train_key)
     feature = pd.concat([train_base, test_base])
     weather_df = pd.concat([weather_train_df, weather_test_df])
