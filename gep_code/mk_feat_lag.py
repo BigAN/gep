@@ -26,10 +26,10 @@ def add_lag_feature(weather_df, window=3):
     lag_min = rolled.min().reset_index().astype(np.float16)
     lag_std = rolled.std().reset_index().astype(np.float16)
     for col in cols:
-        weather_df['{col}_mean_lag{window}'.format({"col":col,"window":window})] = lag_mean[col]
-        weather_df['{col}_max_lag{window}'.format({"col":col,"window":window})] = lag_max[col]
-        weather_df['{col}_min_lag{window}'.format({"col":col,"window":window})] = lag_min[col]
-        weather_df['{col}_std_lag{window}'.format({"col":col,"window":window})] = lag_std[col]
+        weather_df['{col}_mean_lag{window}'.format(**{"col":col,"window":window})] = lag_mean[col]
+        weather_df['{col}_max_lag{window}'.format(**{"col":col,"window":window})] = lag_max[col]
+        weather_df['{col}_min_lag{window}'.format(**{"col":col,"window":window})] = lag_min[col]
+        weather_df['{col}_std_lag{window}'.format(**{"col":col,"window":window})] = lag_std[col]
 
 
 def feature_func(inp,weather_df):
